@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+option go_package = "./proto/fee";
+package dapplink.fee;
+
+enum ReturnCode{
+  SUCCESS = 0;
+  ERROR = 1;
+}
+
+message SupportChainsRequest{
+  string consumer_token = 1;
+  string chain = 2;
+  string network = 3;
+}
+
+message SupportChainsResponse {
+  ReturnCode code = 1;
+  string msg = 2;
+  bool support = 3;
+}
+
+message ChainFeeRequest {
+  string consumer_token = 1;
+  string chain = 2;
+  string network = 3;
+  string tx_type = 4;
+}
+
+message ChainFeeResponse {
+  ReturnCode code = 1;
+  string msg = 2;
+  string low_fee = 3;
+  string normal_fee = 4;
+  string fast_fee = 6;
+  string other_fee = 7;
+}
+
+service ChainFeeService {
+  rpc getSupportChains(SupportChainsRequest) returns (SupportChainsResponse) {}
+  rpc getFeeByChain(ChainFeeRequest) returns(ChainFeeResponse){}
+}
